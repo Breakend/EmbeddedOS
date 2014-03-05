@@ -1,0 +1,14 @@
+Program 2
+-----------
+
+This program is meant to learn to use the linker (kind of) and to be able to load multiple programs onto the Arduino.
+
+Intent:
+	Create a "nano"-kernel that sits in the initial program slot. Another program (Ref: /Program1.txt) will be loaded into memory at some other address in space (TBD). The nano-kernel will then jump to the other address in space and begin running the other program.
+
+Steps:
+
+1. C scripts found in /src/Program2/
+2. Compile scripts with linker settings starting at a certain location
+3. Combine hex files with SRecord (installed with homebrew)
+4. load combined hex onto arduino with avrdude

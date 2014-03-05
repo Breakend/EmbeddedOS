@@ -1,0 +1,25 @@
+Program 1
+-----------
+
+This program is meant to test out the Arduino Uno and write a simple program in C to run it on the machine. From here, I will move onto a simple kernel. 
+
+Intent:
+	According to the schematic in the same folder, the on-board LED is connected to pin PB5 of the Atmega328p chip. The goal is to make it blink faster and faster to indicate that the program is running [somewhat] correctly.
+
+Steps:
+
+1. C script found in /src/Program1/
+2. Generate IHEX file with avr-gcc
+	# Commands used
+	# Compile
+	$ avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o led.o program1.c
+	# Link
+	$ avr-gcc -mmcu=atmega328p led.o -o led
+	# Copy for eeprom
+	$ avr-objcopy -O ihex -R .eeprom led led.hex
+3. Load onto the chip
+
+	# Note: the -P attribute might have to be changed from /dev/tty.usbmodem1411, depending on operating system and instance
+	$ avrdude -F -V -c arduino -p ATMEGA328P -P /dev/tty.usbmodem1411 -b 115200 -U flash:w:led.hex
+
+And done! It works.
