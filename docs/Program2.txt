@@ -10,5 +10,21 @@ Steps:
 
 1. C scripts found in /src/Program2/
 2. Compile scripts with linker settings starting at a certain location
+	# To compile and link kernel script
+	$ avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o kernel.o program2-kernel.c
+	$ avr-gcc -mmcu=atmega328p kernel.o -o kernel
+	$ avr-objcopy -O ihex -R .eeprom kernel kernel.hex
+
+	# To compile and link the led script
+	# Compile
+	$ avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o led.o program2-led.c
+	# Link
+	$ avr-gcc -mmcu=atmega328p led.o -o led -Wl,-section-start=.text=0x00c0
+	# Copy for eeprom
+	$ avr-objcopy -O ihex -R .eeprom led led.hex
+
 3. Combine hex files with SRecord (installed with homebrew)
+	#Srecord command
+	srec_cat kernel.hex -intel led.hex -intel -o merged.hex -intel
+
 4. load combined hex onto arduino with avrdude
