@@ -1,0 +1,18 @@
+Program 3
+-----------
+
+Intent:
+
+The purpose of this program is to test the plausibility of a chaotically encrypted program memory. Here the second program will be "scrambled" in the sense that it will be interspaced with jumps back to the first kernel which keeps track of the next address to go to and jumps back to that. This is a proof of concept.
+
+Process:
+
+Using same programs from Program2 script except need to now keep track of current memory address and interlace second program with jmps.
+
+1. Compile program3-led to assembly.
+	# To decompile
+	avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -S -o led.s program2-led.c
+	1.1 manually insert jmps (as a temporary first step)
+	avr-gcc -mmcu=atmega328p led.s -o led -Wl,-section-start=.text=0x00d0  
+
+2. Link to correct memory address as in Program2

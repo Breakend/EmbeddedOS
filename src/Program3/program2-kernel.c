@@ -32,11 +32,15 @@ int main (void)
  
   //  fptr = (void (*)(void))0x00c0;
   //  fptr();
+  void * address = (void *)0x00cf;
 
-  __asm__ __volatile__ (
-    "jmp 0x00d0"
-    );
+  address = (char*) address + 1;
 
+  // __asm__ __volatile__ (
+  //   "jmp %1" : "=r" ( address )
+  //   );
+
+  asm volatile("jmp %0" : : "r" (address));
 
  return 0;
 }

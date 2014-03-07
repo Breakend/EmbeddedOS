@@ -11,20 +11,27 @@ Steps:
 1. C scripts found in /src/Program2/
 2. Compile scripts with linker settings starting at a certain location
 	# To compile and link kernel script
-	$ avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o kernel.o program2-kernel.c
-	$ avr-gcc -mmcu=atmega328p kernel.o -o kernel
-	$ avr-objcopy -O ihex -R .eeprom kernel kernel.hex
+	avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o kernel.o program2-kernel.c
+	avr-gcc -mmcu=atmega328p kernel.o -o kernel
+	avr-objcopy -O ihex -R .eeprom kernel kernel.hex
 
 	# To compile and link the led script
 	# Compile
-	$ avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o led.o program2-led.c
+	avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o led.o program2-led.c
 	# Link
-	$ avr-gcc -mmcu=atmega328p led.o -o led -Wl,-section-start=.text=0x00c0
+	avr-gcc -mmcu=atmega328p led.o -o led -Wl,-section-start=.text=0x00d0  
+
+	#DONT REALLY NEED ALL THIS
+	#-Wl,-section-start=.stab=0x00d0 -Wl,-section-start=.stabstr=0x00d0 -Wl,-section-start=.comment=0x00d0 -Wl,-section-start=.shstrtab=0x00d0 -Wl,-section-start=.symtab=0x00d0 -Wl,-section-start=.strtab=0x00d0 
+
 	# Copy for eeprom
-	$ avr-objcopy -O ihex -R .eeprom led led.hex
+	avr-objcopy -O ihex -R .eeprom led led.hex
 
 3. Combine hex files with SRecord (installed with homebrew)
 	#Srecord command
 	srec_cat kernel.hex -intel led.hex -intel -o merged.hex -intel
 
+	#NOTE: This did not actually work, the working version was made by hand cutting and pasting the led.hex then removing the end line and then pasting the kernel.hex
+
 4. load combined hex onto arduino with avrdude
+	avrdude -F -V -c arduino -p ATMEGA328P -P /dev/tty.usbmodem1421 -b 115200 -U flash:w:merged.hex
