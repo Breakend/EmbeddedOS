@@ -13,6 +13,38 @@ Using same programs from Program2 script except need to now keep track of curren
 	# To decompile
 	avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -S -o led.s program2-led.c
 	1.1 manually insert jmps (as a temporary first step)
-	avr-gcc -mmcu=atmega328p led.s -o led -Wl,-section-start=.text=0x00d0  
+ 	avr-gcc -mmcu=atmega328p led.s -o led -Wl,-section-start=.text=0x00d0  -Wl,-section-start=.data=0x8000d0
 
 2. Link to correct memory address as in Program2
+
+
+TODO:
+ First need to insert jmps back to kernel
+ Then need to replace existing jmps in code with pushes of desired address to the stack, these will then have special jmps which go to a location which calculates the next address based on the pushed address and jmps to that, the same goes for branch etc.
+ for branches, replace with using lea for labels (see bookmark)
+ then jmp back to certain memory location where we pop the address off 
+
+
+	avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -S -o kernel.s program2-kernel.c
+
+/**
+Use the following C:
+
+unsigned int jumpAddress; 
+
+void _asm_jump(void); 
+
+void rtsAsmJump(unsigned int address) { 
+
+jumpAddress = address; 
+_asm_jump(); 
+} 
+
+And the following Assembly:
+.global _asm_jump 
+
+_asm_jump: 
+mov r7,jumpAddress 
+ld.w r8,r7 
+mov pc,r8
+**/

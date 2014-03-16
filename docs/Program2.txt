@@ -19,7 +19,7 @@ Steps:
 	# Compile
 	avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o led.o program2-led.c
 	# Link
-	avr-gcc -mmcu=atmega328p led.o -o led -Wl,-section-start=.text=0x00d0  
+	avr-gcc -mmcu=atmega328p led.o -o led -Wl,-section-start=.text=0x00d0  -Wl,-section-start=.data=0x8000d0  
 
 	#DONT REALLY NEED ALL THIS
 	#-Wl,-section-start=.stab=0x00d0 -Wl,-section-start=.stabstr=0x00d0 -Wl,-section-start=.comment=0x00d0 -Wl,-section-start=.shstrtab=0x00d0 -Wl,-section-start=.symtab=0x00d0 -Wl,-section-start=.strtab=0x00d0 
