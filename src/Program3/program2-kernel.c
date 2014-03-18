@@ -11,6 +11,8 @@ typedef unsigned short uint16_t;
     //THIS ISN'T INITIALIZING CORRECTLY.... UGH
     // volatile uint16_t jmpAddress = 0x00ff;
   volatile uint16_t tmpaddr;
+  volatile const uint16_t offset;
+  volatile uint16_t v_pc;
 
 /*
   Keep track of the virtual PC
@@ -22,8 +24,12 @@ typedef unsigned short uint16_t;
   // }
 
   //Calculates real address based on virtual addr
-  uint16_t calc_address(uint16_t jmp){
-      return jmp + 0x0004;
+  uint16_t calc_address(uint16_t vpc){
+      return vpc * 0x0004; //Try this out for the basic case
+  }
+
+  uint16_t calc_vaddress(uint16_t rpc){
+    return rpc / 0x0004;
   }
 
 // void jump_to(uint16_t addr){
@@ -38,82 +44,90 @@ int main (void)
     Here is the initialization of the initial starting address of the program etc.
   */
 
+  v_pc = 0x0000; //virtual address
+  offset = 0x0100;
+
+  //Initial address to start program
+  tmpaddr += v_pc + offset;
+
+  //TODO: probably shouldn't hardcode this so it doesn't get overwritten, but 
+  //making assumption it's not going to be for now
+  __asm__ __volatile__ ("sts 0x0200, %A0" : : "r" (v_pc));
+  __asm__ __volatile__ ("sts 0x0201, %B0" : : "r" (v_pc));
+
+
+  //Start after initialization
+  __asm__ __volatile__ ("mov r30, %A0" "\n\t"
+                        "mov r31, %B0" "\n\t"
+                        : : "r" (tmpaddr));
+  __asm__ __volatile__ ("ijmp");
+
   /*
     Part II
-    Using current v_address calculate next "virtual" address, push to stack
+    Increment current v_pc, calculate "real" PC
   */
+
+  __asm__ __volatile__ ("lds %0, 0x0200" : "=r" (v_pc) :);
+
+  //This calculates the address based on starting address = 0x0000, when jumping
+  //to the address add the offset value
+
+  v_pc += 0x0001;
+
+  //save vpc
+  __asm__ __volatile__ ("sts 0x0200, %A0" :: "r" (v_pc));
+  __asm__ __volatile__ ("sts 0x0201, %B0" :: "r" (v_pc));
+
+  tmpaddr = calc_address(v_pc);
+  tmpaddr += offset;
 
   /*
     Part III
+    jmp to real address
+    NOTE THIS CASE DOESN'T INCLUDE JUMPS AND BRANCHES IN THE ORIGINAL PROGRAM
+    THAT CASE WILL BE HANDLED BY THE SECOND PART OF THIS KERNEL WHICH WON'T 
+    BE REACHED WITHOUT AN EXPLICIT JUMP THERE
+  */
+
+  //Start after initialization
+  __asm__ __volatile__ ("mov r30, %A0" "\n\t"
+                        "mov r31, %B0" "\n\t"
+                        : : "r" (tmpaddr));
+  __asm__ __volatile__ ("ijmp");
+
+
+  /*
+    Part IV
     NOTE: Any instructions with a "real" jump will push the address
     to the stack instead and jump here, if label then its okay and 
-    we can actually just keep the jmp???
+    we can actually just keep the branch or jump except if it doesn't use a label
+    though in this case still need to push address to stack so can update the next
+    real address...?
+
+    //push onto the stack using
+    push LOW(LABEL)
+    push HIGH(LABEL)
 
     pop virtual address from stack
     Using "virtual address" calculate "real" address
   */
 
-  /*
-    Part IV
-    jmp to real address
-  */
 
-/*
-  Attempting to jmp using inline variable
-*/
-  // uint16_t v_pc;
+   //get "virtual" value from real value
 
-  //Test saving to sram
-  uint16_t jmpAddress = 0x00ff;
-
-
-  __asm__ __volatile__ ("sts 0x0200, %A0" : : "r" (jmpAddress));
-  __asm__ __volatile__ ("sts 0x0201, %B0" : : "r" (jmpAddress));
-
-  // __asm__ __volatile__ ("sts 0x0201, %0" : : "r" (jmpAddress));
-  // v_pc = 0x01;
-
-  //For marking where to go
-  // __asm__ __volatile__ ("nop");
-  // cont:
-  //Test loading from sram
-  // __asm__ __volatile__ ("lds __tmp_reg__, 0x0200" :::);
-  // __asm__ __volatile__ ("mov %0, __tmp_reg__" : "=r" (tmpaddr) :);
-  __asm__ __volatile__ ("lds %0, 0x0200" : "=r" (tmpaddr) :);
-
-  // uint16_t tmpaddr = jmpAddress;
-
-  tmpaddr = calc_address(tmpaddr);
-  __asm__ __volatile__ ("sts 0x0200, %A0" :: "r" (tmpaddr));
-  __asm__ __volatile__ ("sts 0x0201, %B0" :: "r" (tmpaddr));
-
-  //TODO: maybe instead of pushing and popping just do sts lds
-  asm("push %A0" "\n\t"
-      "push %B0" "\n\t"
-      : : "r" (tmpaddr));
-  // jmpAddress = tmpaddr;
-
-  // __asm__ __volatile__(
-  //     // "mov __tmp_reg__, %0"  "\n\t"
-  //     "jmp %0"        "\n\t"
-  //     : 
-  //     :
-  //     : "p" (jmpAddress) 
-  //   );
-
-    /*
-      THIS WORKS!!!, i'm not really sure why
-    */
-    asm("pop r31");
+    asm("pop r31"); //not sure if need both registers or if this is the right order
     asm("pop r30");
-    asm("ijmp");
 
-    // goto cont;
+    __asm__ __volatile__("mov %A0, r30" "\n\t"
+                         "mov %B0, r31" "\n\t"
+                        : "=r" (tmpaddr));
+    tmpaddr -= offset; //remove offset
+    v_pc = calc_vaddress(tmpaddr); //update virtual counter
 
-    // asm("jmp 0x0058" :: ); 
-
-    // uint16_t n_addr = 0x0059;
-    // asm("ijmp" :: "z" (n_addr)); 
+    //can assume in this case (i.e. with a label it should be 
+    //the real address so can just jump there since they're already 
+    //loaded into the z-register (or at least should be :0)
+    __asm__ __volatile__ ("ijmp");   
 
 
  return 0;
