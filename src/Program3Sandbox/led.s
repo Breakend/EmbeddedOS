@@ -303,7 +303,7 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	call __divmodhi4
+	call __divmodhi4 ;try leaving this here, it should be an internal service routine??
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp

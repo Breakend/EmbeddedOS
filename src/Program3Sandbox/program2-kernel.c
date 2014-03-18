@@ -19,7 +19,7 @@ typedef unsigned short uint16_t;
 
   //Calculates real address based on virtual addr
   uint16_t calc_address(uint16_t jmp){
-      return jmp + 0x0001;
+      return jmp + 0x0004;
   }
 
 // void jump_to(uint16_t addr){
@@ -57,6 +57,8 @@ int main (void)
   tmpaddr = calc_address(tmpaddr);
   __asm__ __volatile__ ("sts 0x0200, %A0" :: "r" (tmpaddr));
   __asm__ __volatile__ ("sts 0x0201, %B0" :: "r" (tmpaddr));
+
+  //TODO: maybe instead of pushing and popping just do sts lds
   asm("push %A0" "\n\t"
       "push %B0" "\n\t"
       : : "r" (tmpaddr));
