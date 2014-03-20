@@ -11,7 +11,7 @@ typedef unsigned short uint16_t;
     //THIS ISN'T INITIALIZING CORRECTLY.... UGH
     // volatile uint16_t jmpAddress = 0x00ff;
   volatile uint16_t tmpaddr;
-  volatile const uint16_t offset;
+  volatile uint16_t offset;
   volatile uint16_t v_pc;
 
 /*
@@ -25,11 +25,11 @@ typedef unsigned short uint16_t;
 
   //Calculates real address based on virtual addr
   uint16_t calc_address(uint16_t vpc){
-      return vpc * 0x0004; //Try this out for the basic case
+      return vpc * 0x0007; //Try this out for the basic case
   }
 
   uint16_t calc_vaddress(uint16_t rpc){
-    return rpc / 0x0004;
+    return rpc / 0x0007;
   }
 
 // void jump_to(uint16_t addr){
@@ -45,7 +45,7 @@ int main (void)
   */
 
   v_pc = 0x0000; //virtual address
-  offset = 0x0100;
+  offset = 0x0200;
 
   //Initial address to start program
   tmpaddr += v_pc + offset;
@@ -63,11 +63,21 @@ int main (void)
   __asm__ __volatile__ ("ijmp");
 
   /*
+    Part I.II
+    This is a temporary solution because of some extra code the linker adds, the first jump back
+    should reset the kernel to the position of the scrambled code...
+  */
+  offset = 0x0240;
+  // __asm__ __volatile__ ("sts 0x0200, %A0" : : "r" (v_pc));
+  // __asm__ __volatile__ ("sts 0x0201, %B0" : : "r" (v_pc));
+
+  /*
     Part II
     Increment current v_pc, calculate "real" PC
   */
 
-  __asm__ __volatile__ ("lds %0, 0x0200" : "=r" (v_pc) :);
+  __asm__ __volatile__ ("lds %A0, 0x0200" "\n\t"
+                        "lds %B0, 0x0201" "\n\t" : "=r" (v_pc) :);
 
   //This calculates the address based on starting address = 0x0000, when jumping
   //to the address add the offset value
@@ -116,18 +126,28 @@ int main (void)
    //get "virtual" value from real value
 
     asm("pop r31"); //not sure if need both registers or if this is the right order
-    asm("pop r30");
+    asm("pop r30"); 
 
     __asm__ __volatile__("mov %A0, r30" "\n\t"
                          "mov %B0, r31" "\n\t"
                         : "=r" (tmpaddr));
     tmpaddr -= offset; //remove offset
+    
     v_pc = calc_vaddress(tmpaddr); //update virtual counter
+    
+    //save vpc
+    __asm__ __volatile__ ("sts 0x0200, %A0" :: "r" (v_pc));
+    __asm__ __volatile__ ("sts 0x0201, %B0" :: "r" (v_pc));
 
     //can assume in this case (i.e. with a label it should be 
     //the real address so can just jump there since they're already 
     //loaded into the z-register (or at least should be :0)
     __asm__ __volatile__ ("ijmp");   
+
+    //TODO: 
+    //    NEED TO ADD NOPs to space out to account for the jumps where branches are.... 
+    //    NEED TO ALSO need to save and restore registers before jumping back....
+
 
 
  return 0;

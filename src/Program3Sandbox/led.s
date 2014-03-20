@@ -61,7 +61,8 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	1: subi r20,1
+.S1:  
+	subi r20,1
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -73,7 +74,7 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	brne 1b
+	brne .S1
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -106,7 +107,8 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	1: subi r20,1
+S2: 
+	subi r20,1
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -118,7 +120,7 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	brne 1b
+	brne .S2
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -139,7 +141,8 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	1: subi r20,1
+S3: 
+	subi r20,1
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -151,7 +154,7 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	brne 1b
+	brne .S3
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -192,7 +195,8 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	1: subi r20,1
+.S4: 
+	subi r20,1
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -204,7 +208,7 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	brne 1b
+	brne .S4
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -237,7 +241,8 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	1: subi r20,1
+.S5: 
+	subi r20,1
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -249,7 +254,7 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	brne 1b
+	brne .S5
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -270,7 +275,8 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	1: subi r20,1
+.S6: 
+	subi r20,1
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
@@ -282,7 +288,7 @@ main:
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
-	brne 1b
+	brne .S6
 	ldi r30, 0x0059
 	ldi r31, 0x0000
 	ijmp
