@@ -1,0 +1,32 @@
+Toward a final program
+-----------------------
+
+Here we will try encrypting and decrypting the assembly with an Arnold Cat Map.
+
+Even though the Arnold Cat Map was intended for images, it can be applied here.
+
+The equations are:
+
+	x' = 2x + y   (all mod n?)
+	y' = x + y
+
+We divide the assembly into an "x" and "y" range ofequal sizes (i.e. n x n).
+
+Scramble using a python script (TBD). Using above formula and line numbers (after the stack setup and making sure that labels are kept with the desired address) scramble the memory for 1 iterations (for now).
+
+so given 9 lines, the mapping would be the following (assuming n = 3)
+
+1								1  2  3			     
+2					--->		4  5  6   ---> 
+3								7  8  9		    1
+4
+5
+6
+7
+8
+9
+
+In the program the address will be modified to accommodate for spacing inserted after (i.e. nops and jmps)
+
+1(3, 2), 2(1, 3), 3(2, 1)
+4(1, 1), 
