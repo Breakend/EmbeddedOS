@@ -13,7 +13,7 @@ main:
 /* stack size = 0 */
 .L__stack_usage = 0
 	sbi 0x4,5
-	ldi r30, 0x0087 ;temporary solution to avoid jumping back to stack code
+	ldi r30, 0x0087 ;note these three lines (ijmp) can be replaced with a single jmp
 	ldi r31, 0x0000
 	ijmp
 	nop

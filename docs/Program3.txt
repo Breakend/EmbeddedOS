@@ -56,3 +56,21 @@ Preprocessing:
 	replace all brne and rjmp etc. with push of label address to stack
 		- In this case jump back to calculate virtual address from real address to update the v_pc
 		- In the base "unscrambled" case we can just set it to the same address, for real scrambled version need to recalculate
+
+
+Summary of preprocessing:
+	- ALL SubLabels (i.e. 1: brne 1b) are replaced with a full label (i.e. S1: brne .S1)
+	- for unconditional jumps or branches to labels, replace with pushing the label address onto the stack
+	   and jumping to the part in the kernel which pops the addresses off the stack and updates the virtual counter
+	- for conditional jumps need to add a sequence such as the following. Replace the conditional branch with a conditional branch to a new label which will push the memory address onto the stack and jump back to that part of the kernel, otherwise jump back to the normal address of the kernel (as in a normal branch where you would continue to the next instruction)
+
+	///////////
+		brne .X1
+		jmp 0x010E ; double what its supposed to be because of gcc compiler 
+	.X1:
+		ldi r28, lo8(gs(.L2)) ;use the same one to disturb the least amount of registers
+		push r28
+		ldi r28, hi8(gs(.L2))
+		push r28
+		jmp 0x019A
+	//////////////
