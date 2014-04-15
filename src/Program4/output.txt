@@ -22,14 +22,14 @@
 	ldi r22,hlo8(3199999)
 .S1: subi r20,1
 	ldi r25,0
-	.size	main, .-main
+	nop
 .S6: subi r20,1
 	ldi r22,hlo8(6399999)
 	sbci r22,0
 .S2: subi r20,1
 	sbci r21,0
 	ldi r18,lo8(3)
-	.ident	"GCC: (GNU) 4.8.2"
+	nop
 	sbci r21,0
 	ldi r22,hlo8(3199999)
 	ldi r21,hi8(3199999)
@@ -44,7 +44,7 @@
 	brne S3
 	sbci r21,0
 	nop
-	brne 1b
+	brne .S4
 	sbci r21,0
 	sbci r22,0
 	nop

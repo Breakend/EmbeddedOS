@@ -32,7 +32,7 @@
 .S3: subi r20,1
 	sbci r21,0
 	sbci r22,0
-	brne S3
+	brne .S3
 .L9:rjmp .
 	nop
 	cbi 0x5,5
@@ -64,15 +64,15 @@
 .S6: subi r20,1
 	sbci r21,0
 	sbci r22,0
-	brne 1b
+	brne .S6
 .L10:rjmp .
 	nop
 	adiw r24,1
 	movw r22,r18
 	call __divmodhi4
 	rjmp .L8
-	.size	main, .-main
-	.ident	"GCC: (GNU) 4.8.2"
+	nop
+	nop
 	nop
 	nop
 	nop

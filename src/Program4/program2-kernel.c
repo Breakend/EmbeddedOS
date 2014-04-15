@@ -33,7 +33,8 @@ typedef unsigned short uint16_t;
     uint16_t y = vpc%9;
     uint16_t x_prime;
     uint16_t y_prime;
-    for(int i =0;i<5;i++){ //5 iterations
+    int i;
+    for( i =0;i<5;i++){ //5 iterations
       x_prime = (2*x + y) % 9;
       y_prime = (x + y) % 9;
       x = x_prime;
@@ -46,11 +47,12 @@ typedef unsigned short uint16_t;
   }
 
   uint16_t calc_vaddress(uint16_t rpc){
-    uint16_t x = vpc/9;
-    uint16_t y = vpc%9;
+    uint16_t x = rpc/9;
+    uint16_t y = rpc%9;
     uint16_t x_prime;
     uint16_t y_prime;
-    for(int i =0;i<7;i++){ //7 iterations to unscramble?
+    int i;
+    for( i =0;i<7;i++){ //7 iterations to unscramble?
       x_prime = (2*x + y) % 9;
       y_prime = (x + y) % 9;
       x = x_prime;
@@ -96,6 +98,8 @@ int main (void)
     should reset the kernel to the position of the scrambled code...
   */
   offset = 0x0240;
+  // asm("pop r0"); //not sure if need both registers or if this is the right order
+//idk trying this
   // __asm__ __volatile__ ("sts 0x0200, %A0" : : "r" (v_pc));
   // __asm__ __volatile__ ("sts 0x0201, %B0" : : "r" (v_pc));
 
@@ -116,7 +120,24 @@ int main (void)
   __asm__ __volatile__ ("sts 0x0200, %A0" :: "r" (v_pc));
   __asm__ __volatile__ ("sts 0x0201, %B0" :: "r" (v_pc));
 
-  tmpaddr = calc_address(v_pc);
+
+  //inline to avoid stack for now
+  // tmpaddr = calc_address(v_pc);
+     uint16_t x = v_pc/0x09;
+    uint16_t y = v_pc%0x09;
+    uint16_t x_prime;
+    uint16_t y_prime;
+    int i;
+    for( i =0;i<5;i++){ //5 iterations
+      x_prime = (0x02*x + y) % 0x09;
+      y_prime = (x + y) % 0x09;
+      x = x_prime;
+      y = y_prime;
+    }
+
+
+
+  tmpaddr = (0x09*x+y) * 0x0009; //for the padding
   tmpaddr += offset;
 
   /*
@@ -159,14 +180,37 @@ int main (void)
     __asm__ __volatile__("mov %A0, r30" "\n\t"
                          "mov %B0, r31" "\n\t"
                         : "=r" (tmpaddr));
-    tmpaddr -= offset; //remove offset
+    uint16_t r_addr = tmpaddr;
+    tmpaddr -= 0x0240;
+    tmpaddr /= 0x0009;
+
+
     
-    v_pc = calc_vaddress(tmpaddr); //update virtual counter
+    // v_pc = calc_vaddress(tmpaddr); //update virtual counter
     
+    //Inline to prevent pushes to the stack
+    uint16_t xn = tmpaddr/9;
+    uint16_t yn = tmpaddr%9;
+    uint16_t xn_prime;
+    uint16_t yn_prime;
+    int j;
+    for( j =0;j<6;j++){ //6 iterations to unscramble?
+      xn_prime = (2*xn + yn) % 9;
+      yn_prime = (xn + yn) % 9;
+      xn = xn_prime;
+      yn= yn_prime;
+    }
+
+    v_pc = (9*xn+yn); //for the padding
+
+
     //save vpc
     __asm__ __volatile__ ("sts 0x0200, %A0" :: "r" (v_pc));
     __asm__ __volatile__ ("sts 0x0201, %B0" :: "r" (v_pc));
 
+  __asm__ __volatile__ ("mov r30, %A0" "\n\t"
+                        "mov r31, %B0" "\n\t"
+                        : : "r" (tmpaddr));
     //can assume in this case (i.e. with a label it should be 
     //the real address so can just jump there since they're already 
     //loaded into the z-register (or at least should be :0)

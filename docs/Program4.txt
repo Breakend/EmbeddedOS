@@ -5,6 +5,7 @@ Here we will try encrypting and decrypting the assembly with an Arnold Cat Map.
 
 Even though the Arnold Cat Map was intended for images, it can be applied here.
 
+
 The equations are:
 
 	x' = 2x + y   (all mod n?)
@@ -28,5 +29,5 @@ so given 9 lines, the mapping would be the following (assuming n = 3)
 
 In the program the address will be modified to accommodate for spacing inserted after (i.e. nops and jmps)
 
-1(3, 2), 2(1, 3), 3(2, 1)
-4(1, 1), 
+NOTE ON MORE PREPROCESSING/POSTPROCECSSING NEEDED
+So, it turns out that in AVR, brne and rjmp cannot be more than 64 words apart and since the internal labels of the program are all sorts of screwed up from the scrambling, it is necessary to replace them with branches closer and rjmps to jmps, but this doesn't really matter, because this should be done anyways in the normal post processing.

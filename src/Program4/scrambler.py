@@ -88,9 +88,9 @@ def test_key_find():
 	make "sublabels" into real labels. also need to only pass the lines after the stack setup stuff 
 	because the linker makes those and hacking the linker is a bit much"""
 
-unscramble_test()
+# unscramble_test()
 
-# scramble_test()
+scramble_test()
 # print find_unscramble_key(txt)
 
 

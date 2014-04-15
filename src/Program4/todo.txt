@@ -1,0 +1,4 @@
+TODO: 
+
+-Still need to replace the branches and rjmps (well now they're jumps) with that weird sequence to recalculate the vpc. 
+-Need to save the registers and put them back in the kernel, this is really easy, just push all and then pop all
