@@ -163,7 +163,9 @@ main:
 	nop ;
 	nop ;
 
+	;---------------------------------------------------------
 	ldi r21,hi8(3199999)	;instruction
+	;---------------------------------------------------------
 	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
@@ -172,7 +174,9 @@ main:
 	nop ;
 	nop ;
 
+	;---------------------------------------------------------
 	ldi r22,hlo8(799999)	;instruction
+	;---------------------------------------------------------
 	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
@@ -181,7 +185,9 @@ main:
 	nop ;
 	nop ;
 
+	;---------------------------------------------------------
 	ldi r24,0 				;instruction
+	;---------------------------------------------------------
 	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
@@ -189,8 +195,10 @@ main:
 	nop ;
 	nop ;
 	nop ;
-	;jmp .L8 				;instruction
+
+	;---------------------------------------------------------
 	brne .X3
+	;---------------------------------------------------------
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X3:
 	ldi r28, lo8(gs(.L8)) ;use the same one to disturb the least amount of registers
@@ -199,7 +207,9 @@ main:
 	push r28
 	jmp 0x02D4	
 
+	;---------------------------------------------------------
 	ldi r20,lo8(3199999)	;instruction
+	;---------------------------------------------------------
 	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
@@ -207,7 +217,10 @@ main:
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r21,hi8(799999)		;instruction
+	;---------------------------------------------------------
 	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
@@ -215,7 +228,10 @@ main:
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	sbci r21,0 				;instruction
+	;---------------------------------------------------------
 	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
@@ -223,7 +239,10 @@ main:
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r22,hlo8(3199999) ;instruction
+	;---------------------------------------------------------
 	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
@@ -231,180 +250,240 @@ main:
 	nop ;
 	nop ;
 	nop ;
+	
+	;---------------------------------------------------------
 .S1: 
 	subi r20,1
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------	
 	ldi r25,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------	
 	nop
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 .S6: 
 	subi r20,1
-		jmp 0x01ec; 
+	;---------------------------------------------------------	
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r22,hlo8(6399999)
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	sbci r22,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 .S2: 
 	subi r20,1
-		jmp 0x01ec; 
+	;---------------------------------------------------------	
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	sbci r21,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r18,lo8(3)
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	nop
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	
+	;---------------------------------------------------------
 	sbci r21,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r22,hlo8(3199999)
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r21,hi8(3199999)
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r22,hlo8(799999)
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	sbci r22,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+
+	;---------------------------------------------------------
 	ldi r19,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	nop
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	sbci r22,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 .S5:
 	subi r20,1
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	sbci r21,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 .S4:
 	subi r20,1
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	brne .X5
+	;---------------------------------------------------------
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X5:
 	ldi r28, lo8(gs(.S3)) ;use the same one to disturb the least amount of registers
@@ -412,24 +491,30 @@ main:
 	ldi r28, hi8(gs(.S3))
 	push r28
 	jmp 0x02D4
+
+	;---------------------------------------------------------
 	sbci r21,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	nop
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
-	;jmp .S6 ;was brne
+	;---------------------------------------------------------
 	brne .X4
+	;---------------------------------------------------------
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X4:
 	ldi r28, lo8(gs(.S6)) ;use the same one to disturb the least amount of registers
@@ -437,47 +522,57 @@ main:
 	ldi r28, hi8(gs(.S6))
 	push r28
 	jmp 0x02D4
+	;---------------------------------------------------------
 	sbci r21,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	sbci r22,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	nop
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 .L9:
 	jmp .
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop ;
 	nop ;
-	nop;
 	nop ;
+	;---------------------------------------------------------
 	sbci r22,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	ldi r28, lo8(gs(.S1)) ;use the same one to disturb the least amount of registers
 	push r28
 	ldi r28, hi8(gs(.S1))
@@ -485,23 +580,30 @@ main:
 	jmp 0x02D4
 	nop;
 	nop;
+	nop;
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 .L8:
 	sbi 0x5,5
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	sbci r22,0
-		jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	brne .X7
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X7:
@@ -510,14 +612,17 @@ main:
 	ldi r28, hi8(gs(.S4))
 	push r28
 	jmp 0x02D4
+	;---------------------------------------------------------
 	cbi 0x5,5
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	ldi r28, lo8(gs(.L9)) ;use the same one to disturb the least amount of registers
 	push r28
 	ldi r28, hi8(gs(.L9))
@@ -525,6 +630,9 @@ main:
 	jmp 0x02D4
 	nop;
 	nop;
+	nop;
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 	brne .X9
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X9:
@@ -533,7 +641,7 @@ main:
 	ldi r28, hi8(gs(.S2))
 	push r28
 	jmp 0x02D4
-	nop;
+	;---------------------------------------------------------
 	ldi r28, lo8(gs(.L9)) ;use the same one to disturb the least amount of registers
 	push r28
 	ldi r28, hi8(gs(.L9))
@@ -541,88 +649,111 @@ main:
 	jmp 0x02D4
 	nop;
 	nop;
+	nop;
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 	cpi r24,2
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	nop
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 .L10:
 	jmp .
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
  	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	cpi r24,2
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 .L4:
 	ldi r20,lo8(6399999)
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	cpc r25,__zero_reg__
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 .L2:
 	cpi r24,1
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	cpc r25,__zero_reg__
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	nop
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	nop
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	brne .X10
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X10:
@@ -631,7 +762,8 @@ main:
 	ldi r28, hi8(gs(.S5))
 	push r28
 	jmp 0x02D4
-
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 	ldi r28, lo8(gs(.L10)) ;use the same one to disturb the least amount of registers
 	push r28
 	ldi r28, hi8(gs(.L10))
@@ -639,7 +771,9 @@ main:
 	jmp 0x02D4
 	nop;
 	nop;
-
+	nop;
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 	brne .X11
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X11:
@@ -648,15 +782,18 @@ main:
 	ldi r28, hi8(gs(.L4))
 	push r28
 	jmp 0x02D4
-	;nop;
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 	ldi r20,lo8(799999)
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	brne .X12
 	jmp 0x01ec ; double what its supposed to be because of gcc compiler 
 .X12:
@@ -665,23 +802,28 @@ main:
 	ldi r28, hi8(gs(.L2))
 	push r28
 	jmp 0x02D4
-	nop;
+	;---------------------------------------------------------
 	nop
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	adiw r24,1
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 	ldi r28, lo8(gs(.L10)) ;use the same one to disturb the least amount of registers
 	push r28
 	ldi r28, hi8(gs(.L10))
@@ -689,31 +831,40 @@ main:
 	jmp 0x02D4
 	nop;
 	nop;
+	nop;
+	;---------------------------------------------------------
+	;---------------------------------------------------------
 .L5:
 	cpi r24,1
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
-	nop ;
+	nop ;	
+	;---------------------------------------------------------
 	cpc r25,__zero_reg__
 			jmp 0x01ec; 
+	;---------------------------------------------------------
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	ldi r21,hi8(6399999)
-			jmp 0x01ec; 
+	;---------------------------------------------------------
+	jmp 0x01ec; 
 	nop ;part of padding for kernel
 	nop;
 	nop;
 	nop ;
 	nop ;
 	nop ;
+	;---------------------------------------------------------
 	;kept this unscrambled for the linker
 	.size	main, .-main
 	.ident	"GCC: (GNU) 4.8.2"

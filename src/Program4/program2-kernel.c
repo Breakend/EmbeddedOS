@@ -75,7 +75,7 @@ int main (void)
   */
 
   v_pc = 0x0000; //virtual address
-  offset = 0x0200;
+  offset = 0x0240;
 
   //Initial address to start program
   tmpaddr += v_pc + offset;
@@ -181,7 +181,9 @@ int main (void)
                          "mov %B0, r31" "\n\t"
                         : "=r" (tmpaddr));
     uint16_t r_addr = tmpaddr;
-    tmpaddr -= 0x0240;
+    // tmpaddr += -0x0240;
+    __asm__ __volatile__("subi %A0, 0x40" "\n\t"
+                         "subi %B0, 0x02" "\n\t" : "=r" (tmpaddr)); //this is REALLY bad, but sbci looks like its broken...
     tmpaddr /= 0x0009;
 
 
@@ -194,8 +196,8 @@ int main (void)
     uint16_t xn_prime;
     uint16_t yn_prime;
     int j;
-    for( j =0;j<6;j++){ //6 iterations to unscramble?
-      xn_prime = (2*xn + yn) % 9;
+    for( j =0;j<7;j++){ //6 iterations to unscramble?
+      xn_prime = (0x0002*xn + yn) % 9;
       yn_prime = (xn + yn) % 9;
       xn = xn_prime;
       yn= yn_prime;
@@ -203,14 +205,14 @@ int main (void)
 
     v_pc = (9*xn+yn); //for the padding
 
-
+    // v_pc += 0x0001;
     //save vpc
     __asm__ __volatile__ ("sts 0x0200, %A0" :: "r" (v_pc));
     __asm__ __volatile__ ("sts 0x0201, %B0" :: "r" (v_pc));
 
   __asm__ __volatile__ ("mov r30, %A0" "\n\t"
                         "mov r31, %B0" "\n\t"
-                        : : "r" (tmpaddr));
+                        : : "r" (r_addr));
     //can assume in this case (i.e. with a label it should be 
     //the real address so can just jump there since they're already 
     //loaded into the z-register (or at least should be :0)
